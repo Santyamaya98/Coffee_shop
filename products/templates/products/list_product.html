@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+<center>{% block title %}Coffee Products{% endblock %}</center>
+
+{% block content %}
+<center>
+    <h1 class="text-3xl font-bold text-purple-800 mb-8">Productos y Precios</h1>
+</center>
+
+<div class="bg-purple-600 px-4 py-3 text-white">
+    <center>
+        <p class="text-center text-sm font-medium">
+            <a href="https://www.instagram.com/santyamaya98/" class="text-pink-300 underline hover:text-pink-500">Follow us On Instagram</a>
+        </p>
+    </center>
+</div>
+
+<!-- Main container for products -->
+<div style="max-width: 1200px; margin: 0 auto; padding: 20px;">
+    <ul style="list-style-type: none; padding: 0;">
+        {% for prod in products %}
+        <li style="border: 1px solid #f568e0; border-radius: 8px; margin-bottom: 20px; padding: 20px; background-color: #e699f9;">
+            <!-- Product Image -->
+            <div style="text-align: center; margin-bottom: 15px;">
+                {% if prod.photo %}
+                <img src="{{ prod.photo.url }}" alt="{{ prod.name }}" style="width: 100%; max-width: 300px; height: auto; border-radius: 8px;">
+                {% else %}
+                <img src="https://via.placeholder.com/300" alt="Placeholder image" style="width: 100%; max-width: 300px; height: auto; border-radius: 8px;">
+                {% endif %}
+            </div>
+            
+            <!-- Product Info -->
+            <div style="text-align: center;">
+                <h3 style="font-size: 1.5em; margin: 20px 0; color: #9b4d9f;">{{ prod.name }}</h3> <!-- Color lila -->
+                <p style="font-size: 1.2em; color: #ec4899;">${{ prod.price }}</p> <!-- Color rosado -->
+                <p style="font-size: 1em; color: #ec4899;">{{ prod.description }}</p> <!-- Color gris claro -->
+            </div>
+            
+            <!-- Button -->
+            <div style="text-align: center; margin-top: 20px;">
+                <p class="text-pink-600">
+                <a
+                href="#"
+                style="display: inline-block; padding: 10px 20px; font-size: 1em; font-weight: bold; color: #fff; text-decoration: none; border: 2px solid #ec4899; border-radius: 5px; background-color: #ec4899;"
+                onmouseover="this.style.backgroundColor='#db2777'; this.style.color='#fff';"
+                onmouseout="this.style.backgroundColor='#ec4899'; this.style.color='#fff';"
+                >
+                    BUY
+                </a>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
