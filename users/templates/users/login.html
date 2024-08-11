@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load tailwind_filters %}
+{% load static %}
+
+{% block title %}My First Login{% endblock %}
+
+{% block content %}
+<script src="https://cdn.tailwindcss.com"></script>
+
+<center>
+    <header class="bg-white dark:bg-pink-300 mb-8"> 
+        <div class="mx-auto max-w-screen-xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
+            <div class="flex flex-col items-start gap-4 md:flex-row md:items-center md:justify-between">
+                <!-- logo -->
+                <a href="/productos/">
+                <img src="{% static 'images/logo.png' %}" alt="The Coffee Shop Logo" class="h-12 w-auto">
+                </a>
+                <!-- title -->
+                <h1 class="text-2xl font-bold text-gray-900 sm:text-3xl dark:text-white">The coffee shop</h1>
+            </div>
+        </div>
+    </header>
+
+    <div class="max-w-md mx-auto p-4 bg-purple-200 shadow-md rounded-lg"> <!-- Cambiado a bg-purple-100 -->
+        <form action="" method="post">
+        
+    {% csrf_token %} <!-- Asegúrate de incluir la protección CSRF -->
+            
+            {{ form|crispy }} <!-- Renderiza el formulario usando crispy_forms -->
+
+            <!-- Botón para enviar el formulario -->
+            <button
+                type="submit"
+                class="inline-block rounded border border-pink-500 px-12 py-3 text-sm font-medium text-pink-600 hover:bg-pink-600 hover:text-white focus:outline-none focus:ring focus:ring-pink-500 active:bg-pink-500"
+            >
+                Login
+            </button>
+        </form>
+
+        <!-- Enlace para registrarse -->
+        <div class="mt-4 text-center">
+            <p class="text-sm text-gray-600">
+                ¿No tienes una cuenta? 
+                <a href="{% url 'register' %}" class="text-pink-600 hover:text-pink-800">
+                    Regístrate aquí
+                </a>
+            </p>
+        </div>
+        
+    </div>
+</center>
+{% endblock %}
+
