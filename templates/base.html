@@ -6,40 +6,58 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}My Site{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'css/tailwind.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <script src="https://cdn.tailwindcss.com"></script>
+    {% block extra_head %}{% endblock %}
 </head>
-<body class="bg-purple-200"> <!-- Fondo lila claro para el cuerpo -->
-    
-    <div class="mx-auto max-w-screen-xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8 text-center">
+<body class="bg-gray-100">
+    <header class="bg-pink-300 shadow-md py-4">
+        <div class="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between gap-8">
+                <!-- Logo and Site Title -->
+                <div class="flex items-center gap-4">
+                    <a href="/productos/">
+                        <img src="{% static 'images/logo.png' %}" alt="The Coffee Shop Logo" class="h-16 w-auto">
+                    </a>
+                    <h1 class="text-xl font-semibold text-purple-800">
+                        The Coffee Shop
+                    </h1>
+                </div>
+                
+                <!-- Instagram Image with Link -->
+                <a href="https://www.instagram.com/santyamaya98/" target="_blank">
+                    <img src="{% static 'images/insta.png' %}" alt="Instagram Logo" class="w-6 h-auto"> <!-- Smaller Instagram Logo -->
+                </a>
 
-        <!-- Boton de compras -->
-        <button 
-        type="submit"
-        class="inline-block rounded border border-pink-500 px-12 py-3 text-sm font-medium text-pink-600 hover:bg-purple-600 hover:text-white focus:outline-none focus:ring focus:ring-purple-500 active:bg-purple-500"
-           >
-           Compras
-       </button>
+                <!-- User Welcome and Auth Buttons -->
+                <div class="flex items-center gap-4">
+                    {% if user.is_authenticated %}
+                        <h3 class="text-xl font-bold text-gray-800">
+                            Bienvenido {{ user.username }}
+                        </h3>
+                        <form action="{% url 'logout' %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit"
+                                    class="inline-block rounded-lg border border-pink-700 px-6 py-2 text-sm font-medium text-pink-700 hover:bg-pink-100 focus:outline-none focus:ring-2 focus:ring-pink-500 transition">
+                                Cerrar sesión
+                            </button>
+                        </form>
+                    {% else %}
+                        <a href="{% url 'login' %}" class="inline-block rounded-lg border border-pink-700 px-6 py-2 text-sm font-medium text-pink-700 hover:bg-pink-100 focus:outline-none focus:ring-2 focus:ring-pink-500 transition">
+                            Inicia sesión
+                        </a>
+                    {% endif %}
+                    
+                    <!-- Compras Button -->
+                    <a href="{% url 'create_order_product' %}" 
+                       class="inline-block rounded-lg border border-pink-700 px-6 py-2 text-sm font-medium text-pink-700 hover:bg-pink-100 focus:outline-none focus:ring-2 focus:ring-pink-500 transition">
+                        Compras
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
 
-        {% if user.is_authenticated %}
-            <h1 class="text-2xl font-bold text-gray-900 sm:text-3xl">
-                Bienvenido {{ user.username }}
-            </h1>
-            <!-- Botón de Cierre de Sesión -->
-            <form action ="{% url 'logout' %}" method="post">
-             {% csrf_token %}
-             <button 
-             type="submit"
-             class="inline-block rounded border border-pink-500 px-12 py-3 text-sm font-medium text-pink-600 hover:bg-pink-600 hover:text-white focus:outline-none focus:ring focus:ring-pink-500 active:bg-pink-500"
-                >
-                Cerrar sesión
-            </button>
-            </form>
-        {% else %}
-            <a href="{% url 'login' %}" class="inline-block rounded border border-pink-700 px-12 py-3 text-sm font-medium text-pink-600 hover:bg-pink-600 hover:text-white focus:outline-none focus:ring focus:ring-pink-500 active:bg-pink-500">
-                Inicia sesión
-            </a>
-        {% endif %}
-    </div>
-    
     {% block content %}
     {% endblock %}
 </body>

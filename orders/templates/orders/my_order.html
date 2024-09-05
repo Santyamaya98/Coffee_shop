@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% load custom_filters %}   
+
+{% block title %}Mi Orden{% endblock %}
+
+
+
+{% block content %}
+<div class="container mx-auto p-6">
+    <h1 class="text-3xl font-bold mb-6">Mi Orden</h1>
+
+    {% if order %}
+        <div class="bg-white p-6 rounded-lg shadow-lg">
+            <h2 class="text-2xl font-semibold mb-4">Detalles del Pedido</h2>
+            <p>Fecha del Pedido: {{ order.order_date }}</p>
+
+            <h3 class="text-xl font-semibold mt-6 mb-4">Productos</h3>
+            <ul>
+                {% for order_product in order.orderproduct_set.all %}
+                    <li class="flex items-center mb-4 border-b pb-4">
+                        {% if order_product.product.photo %}
+                            <img src="{{ order_product.product.photo.url }}" alt="{{ order_product.product.name }}" class="w-20 h-20 object-cover mr-6">
+                        {% else %}
+                            <div class="w-20 h-20 bg-gray-300    mr-6 flex items-center justify-center">
+                                <span class="text-gray-600">No Image</span>
+                            </div>
+                        {% endif %}
+                        <div class="flex-1">
+                            <p class="text-lg font-semibold">{{ order_product.product.name }}</p>
+                            <p class="text-gray-700">Precio: ${{ order_product.product.price }}</p>
+                            <p class="text-gray-500">Cantidad: {{ order_product.quantity }}</p>
+                            <p class="text-gray-500">Subtotal: ${{ order_product.product.price|multiply:order_product.quantity|floatformat:2 }}</p>
+                        </div>
+                    </li>
+                {% empty %}
+                    <p>No hay productos en este pedido.</p>
+                {% endfor %}
+            </ul>
+
+            <div class="flex justify-between items-center mt-6">
+                <div class="font-semibold text-lg">Total:</div>
+                <div class="text-lg">$ 
+                    {{ total_price|floatformat:2 }}
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <p>No hay órdenes para mostrar.</p>
+    {% endif %}
+</div>
+{% endblock %}

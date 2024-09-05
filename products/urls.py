@@ -16,9 +16,10 @@ Including another URLconf
 """
 # products/urls.py
 from django.urls import path
-from .views import ProductFormView, ListProductView
+from .views import ProductFormView, ListProductView, ProductListAPI
 
 urlpatterns = [
     path('', ListProductView.as_view(), name='listado'),
+    path('api/', ProductListAPI.as_view(), name='list_product_api'),
     path('add/', ProductFormView.as_view(), name='add_product'),
 ]

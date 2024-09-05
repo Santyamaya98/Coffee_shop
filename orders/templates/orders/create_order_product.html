@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}Agregar Producto{% endblock %}
+
+{% block content %}
+<div class="container mx-auto p-6">
+    <h1 class="text-3xl font-bold mb-6">Agregar Producto al Pedido</h1>
+
+    <form action="{% url 'create_order_product' %}" method="post" class="bg-white p-8 rounded-lg shadow-lg">
+        {% csrf_token %}
+        
+        <h2 class="text-2xl font-semibold mb-6">Productos</h2>
+        <div id="product-list">
+            {% for product in products %}
+                <div class="flex items-center mb-6 border-b pb-4">
+                    {% if product.photo %}
+                        <img src="{{ product.photo.url }}" alt="{{ product.name }}" class="w-20 h-20 object-cover mr-6">
+                    {% else %}
+                        <div class="w-20 h-20 bg-gray-300 mr-6 flex items-center justify-center">
+                            <span class="text-gray-600">No Image</span>
+                        </div>
+                    {% endif %}
+                    <div class="flex-1">
+                        <p class="text-lg font-semibold">{{ product.name }}</p>
+                        <p class="text-gray-700">Precio: $<span id="price_{{ product.id }}">{{ product.price }}</span></p>
+                        <p class="text-gray-500">Subtotal: $<span id="subtotal_{{ product.id }}">0.00</span></p>
+                    </div>
+                    <!-- Hidden input for product ID -->
+                    <input type="hidden" name="product_id_{{ product.id }}" value="{{ product.id }}">
+                    <!-- Quantity input -->
+                    <input type="number" id="quantity_{{ product.id }}" name="quantity_{{ product.id }}" placeholder="Cantidad" min="1" class="w-24 border rounded p-2 mr-4">
+                </div>
+            {% endfor %}
+        </div>
+    
+        <div class="flex justify-between items-center mt-6">
+            <div class="font-semibold text-lg">Total:</div>
+            <div id="total-price" class="text-lg">$0.00</div>
+        </div>
+    
+        <div class="flex justify-end mt-8">
+            <button type="submit" class="bg-blue-600 text-white py-3 px-6 rounded hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-300">
+                Agregar al Pedido
+            </button>
+        </div>
+    </form>
+    
+{% endblock %}

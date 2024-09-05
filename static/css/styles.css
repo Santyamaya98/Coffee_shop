@@ -1,0 +1,10 @@
+/* Define el estado inicial de la tirilla blanca oculta */
+.product-item .product-info {
+    transform: translateY(100%);
+    transition: transform 0.3s ease-in-out; /* Animación suave */
+}
+
+/* Define el estado cuando el producto está activo */
+.product-item.active .product-info {
+    transform: translateY(0);
+}
